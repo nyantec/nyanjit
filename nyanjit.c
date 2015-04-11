@@ -45,7 +45,13 @@ static char const *cache_dir_path() {
 
 	char const *env = getenv("NYANJIT_CACHE_DIR");
 	if (env) {
-		ret = env;
+		size_t len = strlen(env);
+		if (unlikely(len >= sizeof buf))
+			goto exit;
+
+		memcpy(buf, env, len + 1);
+
+		ret = buf;
 		goto exit;
 	}
 
