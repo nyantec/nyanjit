@@ -31,8 +31,7 @@ static int concat(char *restrict buf,
 		goto exit;
 
 	memcpy(buf, prefix, prelen);
-	memcpy(buf + prelen, suffix, suflen);
-	buf[prelen + suflen] = '\0';
+	memcpy(buf + prelen, suffix, suflen + 1);
 
 	ret = 0;
 
