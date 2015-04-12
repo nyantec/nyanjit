@@ -16,6 +16,11 @@
 
 static char buf[PATH_MAX + 1];
 
+static char *const argv_ext[] = {
+	"-use-mcjit",
+	"--"
+};
+
 static int concat(char *restrict buf,
 	char const *restrict prefix, char const *restrict suffix, size_t size) {
 	assert(buf);
@@ -126,7 +131,30 @@ int main(int argc, char *argv[]) {
 	if (!getenv("NYANJIT_CACHE_DISABLE"))
 		path = cache_dir();
 
-	/* TODO: exec lli */
+	size_t argc_ext = sizeof argv_ext / sizeof *argv_ext;
+	size_t argc_lli = argc + argc_ext + 1;
+
+	/* Construct argument vector */
+	char *argv_lli[argc_lli];
+	argv_lli[0] = "NULL";
+
+	/* TODO: Cache directory option */
+
+	/* Extra arguments */
+	for (size_t itr = 0; itr < argc_ext; ++itr)
+		argv_lli[itr + 1] = argv_ext[itr];
+
+	/* Copy command‐line arguments */
+	for (size_t itr = 0; itr < argc; ++itr)
+		argv_lli[itr + argc_ext + 1] = argv[itr + 1];
+
+	/* Terminate argument vector */
+	argv_lli[argc_lli - 1] = (char *) 0;
+
+	if (unlikely(execvp("lli", argv_lli)))
+		fprintf(stderr,
+			SELF ": Unable execute LLVM interpreter: %s\n",
+			strerror(errno));
 
 	return EXIT_FAILURE;
 }
