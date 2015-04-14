@@ -136,11 +136,12 @@ int main(int argc, char *argv[]) {
 	char *argv_lli[argc_lli];
 	argv_lli[argc_off++] = "lli";
 	argv_lli[argc_off++] = "-use-mcjit";
-	argv_lli[argc_off++] = "-enable-cache-manager";
 
 	/* Cache directory option */
-	if (path)
+	if (path) {
+		argv_lli[argc_off++] = "-enable-cache-manager";
 		argv_lli[argc_off++] = buf;
+	}
 
 	argv_lli[argc_off++] = "--";
 
