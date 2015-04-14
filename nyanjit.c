@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
 
 	/* Construct argument vector */
 	char *argv_lli[argc_lli];
-	argv_lli[argc_off++] = "lli";
+	argv_lli[argc_off++] = LLI_PATH;
 	argv_lli[argc_off++] = "-use-mcjit";
 
 	/* Cache directory option */
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
 	/* Terminate argument vector */
 	argv_lli[argc_off] = (char *) 0;
 
-	if (unlikely(execvp("lli", argv_lli)))
+	if (unlikely(execv(LLI_PATH, argv_lli)))
 		fprintf(stderr,
 			SELF ": Unable execute LLVM interpreter: %s\n",
 			strerror(errno));
