@@ -129,13 +129,14 @@ int main(int argc, char *argv[]) {
 		path = cache_dir(buf + sizeof CACHE_OPT - 1,
 			sizeof buf - sizeof CACHE_OPT);
 
-	size_t argc_lli = argc + (path ? 3 : 2);
+	size_t argc_lli = argc + (path ? 4 : 3);
 	size_t argc_off = 0;
 
 	/* Construct argument vector */
 	char *argv_lli[argc_lli];
 	argv_lli[argc_off++] = "lli";
 	argv_lli[argc_off++] = "-use-mcjit";
+	argv_lli[argc_off++] = "-enable-cache-manager";
 
 	/* Cache directory option */
 	if (path)
