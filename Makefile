@@ -15,7 +15,7 @@ nyanjit: nyanjit.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 check: nyanjit helloworld.bc
-	NYANJIT_DISABLE_CACHE=1 ./nyanjit helloworld.bc
+	NYANJIT_CACHE_DISABLE=1 ./nyanjit helloworld.bc
 
 helloworld.bc: helloworld.c
 	clang -c -emit-llvm -o $@ $^
