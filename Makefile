@@ -14,6 +14,12 @@ binfmtdir   := $(abspath $(DESTDIR)/$(PREFIX)/$(LIBDIR)/binfmt.d)
 nyanjit: nyanjit.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
+check: nyanjit helloworld.bc
+	NYANJIT_DISABLE_CACHE=1 ./nyanjit helloworld.bc
+
+helloworld.bc: helloworld.c
+	clang -c -emit-llvm -o $@ $^
+
 install: $(bindir)/nyanjit $(binfmtdir)/nyanjit.conf
 
 $(bindir)/nyanjit: nyanjit $(bindir)
@@ -25,4 +31,4 @@ $(binfmtdir)/nyanjit.conf: $(binfmtdir)
 $(bindir) $(binfmtdir):
 	install -d $@
 
-.PHONY: install
+.PHONY: check install
