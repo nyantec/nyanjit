@@ -1,2 +1,5 @@
 # Binary
 /nyanjit
+
+# LLVM bitcode files
+*.bc
